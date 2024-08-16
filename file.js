@@ -1,0 +1,1 @@
+var input1=prompt("Enter the 1st Number : ", 5);

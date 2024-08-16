@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Youtube Clone</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <style>
+
+      body{
+        padding-top: 30px;
+        padding-left: 90px;
+        padding-right: 20px;
+        background-color: rgb(245, 240, 240);
+      }
+      .youtube{
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        row-gap: 40px;
+        column-gap: 16px;
+        padding-top: 40px;
+      }
+
+      @media (max-width: 1200px) {
+            .youtube {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .youtube {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .youtube {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        .video-description{
+        margin-left: -10px;
+      }
+      .thumbnail{
+        width: 100%;
+      }
+
+      .video-details{
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      .relative-channel-info{
+        opacity: 0;
+        transition:opacity 0.25s;
+        position: absolute; 
+        display: flex; 
+        justify-content: center; 
+        border-style: solid; 
+        border-width: 1px; 
+        border-color: rgb(196,196,196); 
+        border-radius: 4px; 
+        background-color: white; 
+        box-shadow: inset 2px 2px 10px rgba(0,0,0,0.05);
+      }
+      .video-details:hover .relative-channel-info{
+        opacity: 1;
+      }
+
+      .channel{
+        width: 30px;
+        border-radius: 25px;
+      }
+
+      p{
+        margin-top: 0;
+        margin-bottom: 0;
+        font-family: Roboto, Arial, sans-serif;
+      }
+      .video-title{
+        font-size: 14px;
+        font-weight: 550;
+      }
+      .channel-name , .views{
+        color: rgb(96, 96, 96);
+        font-size: 12px;
+        line-height: 18px;
+      }
+
+      .channel-name{
+        margin-top: 10px;
+      }
+
+      .header{
+        display: flex; 
+        flex-direction: row; 
+        height: 50px; 
+        justify-content: space-between;
+        position: fixed;
+        background-color: white;
+        top: 0;
+        left: 0;
+        right: 0;
+        border-bottom-style: solid;
+        border-bottom-color: rgb(196, 196, 196);
+        border-bottom-width: 1px;
+        z-index: 1;
+      }
+
+      .left-side{ 
+         display: flex;
+         flex-direction: row;
+         justify-content: space-between;
+        align-items: center; 
+        width: 170px;
+        flex-shrink: 0;
+      }
+
+      .hamburger{ 
+        height: 25px; 
+        margin-left: 20px;
+      }
+
+      .youtube-logo{
+        width: 100px;
+        cursor: pointer;
+      }
+
+      .middle-part{
+        display: flex; 
+        flex-direction: row; 
+        flex: 1; 
+        align-items: center; 
+        margin-left: 50px; 
+        margin-right: 30px;
+        justify-content: center;
+      }
+
+      .searchbar{
+        max-width: 300px;
+        box-shadow: inset 0px 2px 1px 0px rgb(238, 238, 238);  
+        border-style: solid; 
+        border-width: 1px; 
+        border-color: rgb(196,196,196); 
+        height: 34px; 
+        width: 0; 
+        flex: 1;
+        font-size: 15px;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+        font-family: Arial, Helvetica, sans-serif;
+        cursor: text;
+        padding-left: 10px;
+      }
+
+      .searchbar::placeholder{
+        font-size: 15px;
+       
+      }
+
+      .search-button{
+        width: 70px; 
+        height: 37px; 
+        box-shadow: inset 2px 2px 6px rgba(0,0,0,0.05); 
+        background-color: rgb(245, 240, 240); 
+        padding-left: 10px; 
+        padding-right: 10px; 
+        border: solid; 
+        border-width: 1px; 
+        border-color: rgb(196, 196, 196); 
+        margin-left: -1px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .search{
+       width: 30px; 
+       padding-top: 4px; 
+    }
+
+    .voice-icon-button{
+      margin-left: 
+      12px; border: none; 
+      border-radius: 50px; 
+      width: 37px;
+      position: relative; 
+      cursor: pointer;
+    }
+
+    .voice-icon{
+      width: 25px; 
+      border-radius: 15px; 
+      background-color: rgb(245, 240,240); 
+      padding-top: 4px;
+    }
+
+    .right-side{
+      display: flex; 
+      flex-shrink: 0; 
+      flex-direction: row; 
+      width: 220px; 
+      align-items: center; 
+      justify-content: space-between;
+    }
+
+    .upload{
+      width: 25px;
+    }
+
+    .profile-photo{
+      width: 30px; 
+      height: 30px; 
+      object-fit: cover; 
+      border-radius: 15px; 
+      margin-right: 15px;
+      cursor: pointer;
+    }
+
+    .left-bar{
+      position: fixed;
+      background-color: white;
+      left: 0;
+      top: 50px;
+      bottom: 0;
+      width:75px;
+      z-index: 2px;
+    }
+
+    .thumbnail-images{
+      position: relative;
+    }
+
+    .video-time{
+      background-color: black; 
+      color: white; 
+      position: absolute; 
+      bottom: 10px; 
+      right: 5px; 
+      font-family: Roboto, Arial, Helvetica, sans-serif; 
+      font-size: 12px; 
+      padding: 4px;
+      border-radius: 2px;
+    }
+
+    .notifications-count{
+      position: absolute; 
+      font-family: roboto, Arial, Helvetica, sans-serif; 
+      font-size: 10px; 
+      top: -1px; 
+      right: -3px; 
+      background-color: rgb(169, 4, 4); 
+      color: white; 
+      padding-left: 5px; 
+      padding-right: 5px; 
+      padding-top: 2px; 
+      padding-bottom: 2px; 
+      border-radius: 15px;
+    }
+
+    .sidebar-icons{
+      height: 70px;
+      width: 75px;
+      padding-top: 5px; 
+      padding-bottom: 5px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      transition: background-color 0.15s;
+      cursor: pointer;
+    }
+
+    .sidebar-icons:hover{
+      background-color: rgb(243, 240, 240); 
+    }
+
+    .sidebar-icons img{
+      width: 25px;
+      
+    }
+
+    .sidebar-inner{
+      display: flex;
+      position: relative;
+    }
+
+
+    .icon-description{
+      font-size: 10px;
+      font-family: Roboto, Arial;
+      position: absolute;
+      bottom: -18px;
+    }
+
+    .tooltip{
+      position: absolute; 
+      bottom: -30px; 
+      left: 10px; 
+      font-family: Roboto, Arial, Helvetica, sans-serif; 
+      font-size: 10px; 
+      background-color: black; 
+      color: white; 
+      padding: 4px; 
+      pointer-events: none; 
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+
+    .search-button:hover .tooltip{
+      opacity: 1;
+    }
+
+    .voice-icon-button:hover .tooltip{
+      opacity: 1;
+    }
+
+
+    .icon-tooltips{
+      position: relative;
+      transition: opacity 0.15s;
+      cursor: pointer;
+    }
+
+    .icon-tooltips:hover .tooltip{
+      opacity: 1;
+    }
+    </style>
+  </head>
+     <body>
+
+       <div class="header">
+
+        <div class="left-side">
+          <img class="hamburger" src="Icons/hamburger-menu.svg">
+          <a href="https://www.youtube.com/" target="_blank">
+            <img class="youtube-logo" src="Icons/youtube-logo.svg" alt="">
+          </a>
+        </div>
+
+        <div class="middle-part">
+          <input class="searchbar"  type="text" placeholder="Search">
+          <button class="search-button">
+            <img class="search" src="Icons/search.svg" alt="">
+            <div class="tooltip">Search</div>
+          </button>
+          <div style="display: flex; flex-direction: column; position: relative;">
+            <button class="voice-icon-button">
+              <img class="voice-icon" src="Icons/voice-search-icon.svg" alt="">
+              <div class="tooltip" style="bottom: -40; left: -15px; white-space: nowrap;">Search by Voice</div>
+            </button>
+            
+        </div>
+        </div>
+
+        <div class="right-side">
+          <div class="icon-tooltips" style="position: relative;">
+            <img class="upload" src="Icons/upload.svg" alt="">
+            <div class="tooltip" style="left: -5px; bottom: -32px;">Create</div>
+          </div>
+          <div class="icon-tooltips" style="position: relative;">
+            <img class="upload" src="Icons/youtube-apps.svg" alt="">
+            <div class="tooltip" style="left: -20px; bottom: -32px; white-space: nowrap;">Youtube Apps</div>
+          </div>
+          <div class="thumbnail-images">
+            <div class="icon-tooltips" style="position: relative;">
+              <img class="upload" src="Icons/notifications.svg" alt="">
+              <div class="tooltip" style="left: -15px; bottom: -32px;">Notifications</div>
+            </div>
+            <div class="notifications-count">
+              3
+            </div>
+          </div>
+          <img class="profile-photo" src="Icons/pic-01.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="left-bar">
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/home.svg" alt="">
+            <div class="icon-description" style="position: absolute;">
+              Home
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/explore.svg" alt="">
+            <div class="icon-description" style="right: -5px;">
+              Explore
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/subscriptions.svg" alt="">
+            <div class="icon-description" style="right: -17px;">
+              Subscription
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/originals.svg" alt="">
+            <div class="icon-description" style="right: -9px;">
+              Originals
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/youtube-music.svg" alt="">
+            <div class="icon-description" style="right: -22px; white-space: nowrap;">
+              YouTube Music
+            </div>
+          </div>
+        </div>
+        <div class="sidebar-icons">
+          <div class="sidebar-inner">
+            <img src="Icons/library.svg" alt="">
+            <div class="icon-description" style="right: -4px;">
+              Library
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="youtube">
+        <div>
+          <div class="thumbnail-images">
+            <img class="thumbnail" src="Thumbnails/thumbnail-1.webp" alt="">
+            <div class="video-time">14:20</div>
+          </div>
+          <div class="video-details">
+            <div style="position: relative;">
+              <img class="channel" src="Channels/channel-1.jpeg" alt="">
+              <div class="relative-channel-info">
+                <div>
+                  <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-1.jpeg" alt="">
+                </div>
+                <div>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Marques Brownlee</p>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-bottom: 5px; white-space: nowrap;">15M Subscribers</p>
+                </div>
+              </div>
+            </div>
+            <div class="video-description">
+                <p class="video-title">Talking Tech and AI with Google CEO Sundar Pichai!</p>
+                <p class="channel-name">Marques Brownlee</p>
+                <p class="views">3.4M views · 6 months ago</p>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="thumbnail-images">
+            <img class="thumbnail" src="Thumbnails/thumbnail-2.webp" alt="">
+            <div class="video-time">8:22</div>
+          </div>
+          <div class="video-details">
+            <div style="position: relative;">
+              <img class="channel" src="Channels/channel-2.jpeg" alt="">
+              <div class="relative-channel-info">
+                <div>
+                  <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-2.jpeg" alt="">
+                </div>
+                <div>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Markiplier</p>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">1.05M Subscribers</p>
+                </div>
+              </div>
+            </div>
+            <div class="video-description">
+            <p class="video-title">Try Not To Laugh Challenge #9</p>
+            <p class="channel-name">Markiplier</p>
+            <p class="views">19M views · 4 years ago</p>
+            </div>
+        </div>
+        </div>
+        
+        <div>
+          <div class="thumbnail-images">
+            <img class="thumbnail" src="Thumbnails/thumbnail-3.webp" alt="">
+            <div class="video-time">9:13</div>
+          </div>
+          <div class="video-details">
+            <div style="position: relative;">
+              <img class="channel" src="Channels/channel-3.jpeg" alt="">
+              <div class="relative-channel-info">
+                <div>
+                  <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-3.jpeg" alt="">
+                </div>
+                <div>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">SSSniperWolf</p>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">953K Subscribers</p>
+                </div>
+              </div>
+            </div>
+            <div class="video-description">
+            <p class="video-title">Crazy Tik Toks Taken Moments Before DISASTER</p>
+            <p class="channel-name">SSSniperWolf</p>
+            <p class="views">12M views · 1 year ago</p>
+            </div>
+        </div>
+        </div>
+
+        <div>
+          <div class="thumbnail-images">
+            <img class="thumbnail" src="Thumbnails/thumbnail-4.webp" alt="">
+            <div class="video-time">22:09</div>
+          </div>
+          <div class="video-details">
+            <div style="position: relative;">
+              <img class="channel" src="Channels/channel-4.jpeg" alt="">
+              <div class="relative-channel-info">
+                <div>
+                  <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-4.jpeg" alt="">
+                </div>
+                <div>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Veritasium</p>
+                  <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">10.5M Subscribers</p>
+                </div>
+              </div>
+            </div>
+            <div class="video-description">
+            <p class="video-title">The Simplest Math Problem No One Can Solve - Collatz Conjecture</p>
+            <p class="channel-name">Veritasium</p>
+            <p class="views">18M views · 4 months ago</p>
+            </div>
+        </div>
+        </div>
+    
+
+      <div >
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-5.webp" alt="">
+          <div class="video-time">11:17</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-5.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-5.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">CS Dojo</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">1M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+              <p class="video-title">Kadane's Algorithm to Maximum Sum Subarray Problem</p>
+              <p class="channel-name">CS Dojo</p>
+              <p class="views">519K views · 5 years ago</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-6.webp" alt="">
+          <div class="video-time">19:59</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-6.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-6.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">MrBeast</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">265M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">Anything You Can Fit In The Circle I’ll Pay For</p>
+          <p class="channel-name">MrBeast</p>
+          <p class="views">141M views · 1 year ago</p>
+          </div>
+      </div>
+      </div>
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-7.webp" alt="">
+          <div class="video-time">10:13</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-7.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-7.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">RealLifeLore</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">265K Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">Why Planes Don't Fly Over Tibet</p>
+          <p class="channel-name">RealLifeLore</p>
+          <p class="views">6.6M views · 1 year ago</p>
+          </div>
+      </div>
+      </div>
+
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-8.webp" alt="">
+          <div class="video-time">7:12</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-8.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-8.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Teac Vision</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">1.02M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">Inside The World's Biggest Passenger Plane</p>
+          <p class="channel-name">Tech Vision</p>
+          <p class="views">3.7M views · 10 months ago</p>
+          </div>
+      </div>
+      </div>
+
+      <div >
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-9.webp" alt="">
+          <div class="video-time">13:17</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-9.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-9.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">ThenX</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">7M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+              <p class="video-title">The SECRET to Super Human STRENGTH</p>
+              <p class="channel-name">ThenX</p>
+              <p class="views">20M views · 3 year ago</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-10.webp" alt="">
+          <div class="video-time">7:53</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-10.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-10.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Business Insider</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">3.67M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">How The World's Largest Cruise Ship Makes 30,000 Meals Every Day</p>
+          <p class="channel-name">Business Insider</p>
+          <p class="views">14M views · 1 year ago</p>
+          </div>
+      </div>
+      </div>
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-11.webp" alt="">
+          <div class="video-time">4:10</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-11.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-11.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">Destination Tips</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">543K Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">Dubai's Crazy Underwater Train and Other Things #Only in Dubai</p>
+          <p class="channel-name">Destination Tips</p>
+          <p class="views">3M views · 1 year ago</p>
+          </div>
+      </div>
+      </div>
+
+      <div>
+        <div class="thumbnail-images">
+          <img class="thumbnail" src="Thumbnails/thumbnail-12.webp" alt="">
+          <div class="video-time">4:51</div>
+        </div>
+        <div class="video-details">
+          <div style="position: relative;">
+            <img class="channel" src="Channels/channel-12.jpeg" alt="">
+            <div class="relative-channel-info">
+              <div>
+                <img style="width: 25px; height: 25px; object-fit: cover; border-radius: 20px; margin-top: 8px; margin-left: 7px; margin-right: 5px;" src="Channels/channel-12.jpeg" alt="">
+              </div>
+              <div>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: bold; font-size: 12px; margin: 0; padding: 5px 5px 5px 5px; white-space: nowrap;">TED-ED</p>
+                <p style="font-family: Roboto, Arial, Helvetica, sans-serif; font-weight: 500; font-size: 10px; margin: 0; padding-left: 5px; padding-right: 5px; padding-bottom: 5px; white-space: nowrap;">2.22M Subscribers</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-description">
+          <p class="video-title">What would happen if you didn’t drink water? - Mia Nacamulli</p>
+          <p class="channel-name">TED-Ed</p>
+          <p class="views">12M views · 5 years ago</p>
+          </div>
+      </div>
+      </div>
+    </div>
+  </body>
+</html>
